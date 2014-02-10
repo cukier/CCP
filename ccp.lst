@@ -1,11 +1,11 @@
-CCS PCH C Compiler, Version 4.140, 31805               06-fev-14 15:32
+CCS PCH C Compiler, Version 4.140, 31805               10-fev-14 15:31
 
                Filename:   D:\Eletronica\Projetos\CCP\ccp.lst
 
-               ROM used:   74 bytes (0%)
-                           Largest free fragment is 32694
-               RAM used:   4 (0%) at main() level
-                           4 (0%) worst case
+               ROM used:   72 bytes (0%)
+                           Largest free fragment is 32696
+               RAM used:   5 (0%) at main() level
+                           5 (0%) worst case
                Stack:     0 locations
 
 *
@@ -20,50 +20,51 @@ CCS PCH C Compiler, Version 4.140, 31805               06-fev-14 15:32
 ....................  
 .................... #use delay(crystal=15MHz, clock=60MHz) 
 ....................  
+.................... int duty = 50; 
+....................  
 .................... int main(void) { 
 0004:  CLRF   FF8
 0006:  BCF    FD0.7
 0008:  CLRF   FEA
 000A:  CLRF   FE9
-000C:  MOVLW  00
-000E:  MOVWF  F7E
-0010:  BCF    FC1.4
-0012:  BCF    FC1.5
-0014:  MOVF   F7F,W
-0016:  ANDLW  E0
-0018:  MOVWF  F7F
-001A:  BCF    F79.5
-001C:  BCF    F79.4
-001E:  CLRF   F7A
-0020:  CLRF   F7B
+000C:  MOVLW  32
+000E:  MOVWF  04
+0010:  MOVLW  00
+0012:  MOVWF  F7E
+0014:  BCF    FC1.4
+0016:  BCF    FC1.5
+0018:  MOVF   F7F,W
+001A:  ANDLW  E0
+001C:  MOVWF  F7F
+001E:  BCF    F79.5
+0020:  BCF    F79.4
+0022:  CLRF   F7A
+0024:  CLRF   F7B
 ....................  
 .................... 	setup_ccp1(CCP_PWM); 
-0022:  BCF    F94.2
-0024:  BCF    F8B.2
-0026:  MOVLW  0C
-0028:  MOVWF  FBD
-002A:  CLRF   FB7
-002C:  CLRF   FB6
-002E:  MOVLW  01
-0030:  MOVWF  FB9
-.................... 	setup_timer_2(T2_DIV_BY_1, 127, 1); 
-0032:  MOVLW  00
-0034:  IORLW  04
-0036:  MOVWF  FCA
-0038:  MOVLW  7F
-003A:  MOVWF  FCB
-.................... 	set_pwm1_duty(35000); 
-003C:  MOVLW  2E
-003E:  MOVWF  FBE
-0040:  MOVF   FBD,W
-0042:  ANDLW  CF
-0044:  MOVWF  FBD
+0026:  BCF    F94.2
+0028:  BCF    F8B.2
+002A:  MOVLW  0C
+002C:  MOVWF  FBD
+002E:  CLRF   FB7
+0030:  CLRF   FB6
+0032:  MOVLW  01
+0034:  MOVWF  FB9
+.................... 	setup_timer_2(T2_DIV_BY_1, 255, 1); 
+0036:  MOVLW  00
+0038:  IORLW  04
+003A:  MOVWF  FCA
+003C:  MOVLW  FF
+003E:  MOVWF  FCB
+.................... 	set_pwm1_duty(230); 
+0040:  MOVLW  E6
+0042:  MOVWF  FBE
 ....................  
 .................... 	while (TRUE) 
 .................... 		; 
-0046:  BRA    0046
+0044:  BRA    0044
 .................... } 
-0048:  SLEEP 
+0046:  SLEEP 
 
 Configuration Fuses:
    Word  1: C600   H4 FCMEN IESO
