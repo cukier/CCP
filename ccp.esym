@@ -1,7 +1,7 @@
 D G "__PCH__" 0 0 ""4.140""
 D G "__DEVICE__" 0 0 ""
 D G "__DATE__" 0 0 ""10-fev-14""
-D G "__TIME__" 0 0 ""15:31:10"" "Standard Header file for the PIC18F45K20 device ////////////////"
+D G "__TIME__" 0 0 ""15:41:10"" "Standard Header file for the PIC18F45K20 device ////////////////"
 d G "PIN_A0" 1 25 "31744"
 d G "PIN_A1" 1 26 "31745"
 d G "PIN_A2" 1 27 "31746"

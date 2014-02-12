@@ -1,4 +1,4 @@
-CCS PCH C Compiler, Version 4.140, 31805               10-fev-14 15:31
+CCS PCH C Compiler, Version 4.140, 31805               10-fev-14 15:41
 
                Filename:   D:\Eletronica\Projetos\CCP\ccp.lst
 
@@ -56,8 +56,8 @@ CCS PCH C Compiler, Version 4.140, 31805               10-fev-14 15:31
 003A:  MOVWF  FCA
 003C:  MOVLW  FF
 003E:  MOVWF  FCB
-.................... 	set_pwm1_duty(230); 
-0040:  MOVLW  E6
+.................... 	set_pwm1_duty(127); 
+0040:  MOVLW  7F
 0042:  MOVWF  FBE
 ....................  
 .................... 	while (TRUE) 

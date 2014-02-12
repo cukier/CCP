@@ -10,7 +10,7 @@ int main(void) {
 
 	setup_ccp1(CCP_PWM);
 	setup_timer_2(T2_DIV_BY_1, 255, 1);
-	set_pwm1_duty(230);
+	set_pwm1_duty(127);
 
 	while (TRUE)
 		;
