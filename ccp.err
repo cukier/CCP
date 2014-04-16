@@ -1,3 +1,4 @@
-No Errors   D:\Eletronica\Projetos\CCP\ccp.PJT
-      0 Errors,  0 Warnings.
+>>> Warning 202 "ccp.c" Line 11(15,23): Variable never used:   tempoAux
+      Memory usage:   ROM=3%      RAM=1% - 1%
+      0 Errors,  1 Warnings.
 Build Successful.

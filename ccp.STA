@@ -1,0 +1,52 @@
+
+ROM used:   952 (3%)
+            952 (3%) including unused fragments
+
+            3 Average locations per line
+            63 Average locations per statement
+
+RAM used:   10 (1%) at main() level
+            20 (1%) worst case
+
+Stack used: 2/31 worst case (2 in main + 0 for interrupts)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   33    15 100  ccp.c
+  322     0   0  C:\PICC\Devices\18F252.h
+----- -----
+  355    15 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     40   2   1   443  6.3  @delay_ms1
+0     64   3   1             @PUTCHAR_1_
+0    224  12   1   478  7.2  main
+0     56   3   2             @ITOF
+0    244  13  11             @MULFF
+0     58   3   4             @SFTOI
+0     22   1   0             @const83
+0     30   2   3             @PSTRINGCN_62
+0     40   2   3             @DIV88
+0    170   9   6             @PRINTF_D_62
+ Inline        0             @cinit1
+
+Program metrics:
+    Functions               2
+    Statements              15
+    Comments                78
+    Volume (V)              1098
+    Difficulty (D)          12.2
+    Effort to implement (E) 13361
+    Time to implement (T)   12 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   4
+    Maintainability (MI)    93
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-07FFE   948  31816  
+
+
+

@@ -20,7 +20,7 @@ int main(void) {
          duty = (int) cont * 2.55;
          set_pwm1_duty(duty);
          printf("\n\rduty: %d, cont: %d", duty, cont);
-         cont = !ctrl ? cont + 10 : cont - 10;
+         cont = !ctrl ? cont + 1 : cont - 1;
          if (cont == 90)
             ctrl = TRUE;
          else if (cont == 10)
