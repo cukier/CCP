@@ -19,13 +19,12 @@ int main(void) {
    while (TRUE) {
          duty = (int) cont * 2.55;
          set_pwm1_duty(duty);
-         printf("\n\rduty: %d, cont: %d", duty, cont);
-         cont = !ctrl ? cont + 10 : cont - 10;
-         if (cont == 90)
+         cont = !ctrl ? cont + 1 : cont - 1;
+         if (cont == 99)
             ctrl = TRUE;
          else if (cont == 10)
             ctrl = FALSE;
-         delay_ms(300);
+         delay_ms(50);
    }
 
    return 0;
