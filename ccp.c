@@ -5,7 +5,7 @@
 #use delay(clock=15MHz)
 #use rs232(xmit=PIN_C6, baud=9600)
 
-#define ccp_nr 60000
+#define ccp_nr 15000
 
 #define debouce 100
 
@@ -50,7 +50,6 @@ void ccp2_isr() {
 
 int main(void) {
 
-	set_timer1(0);
 	setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);
 	set_timer1(0);
 	setup_timer_3(T3_INTERNAL | T3_CCP2 | T3_DIV_BY_1);
@@ -72,9 +71,9 @@ int main(void) {
 		b = !input(pin_desce);
 
 		if (a ^ b) {
-			delay_ms(debouce);
 			if (ctrl_bto) {
 				ctrl_bto = FALSE;
+				delay_ms(debouce);
 				if (a) {
 					clear_interrupt(INT_CCP1);
 					enable_interrupts(INT_CCP1);
