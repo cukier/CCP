@@ -7,4 +7,4 @@ ccp: ccp.c
 	$(CC) $(CFLAGS) ccp.c
 
 clean:
-	rm *.cof *.err *.esym *.hex *.lst
+	rm *.cof *.err *.esym *.hex *.lst *.PWI
