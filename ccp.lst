@@ -1,16 +1,16 @@
-CCS PCH C Compiler, Version 4.140, 31805               16-abr-14 08:41
+CCS PCH C Compiler, Version 4.140, 22098               24-set-14 15:26
 
-               Filename:   D:\Eletronica\Projetos\CCP\ccp.lst
+               Filename:   D:\Projetos\CCP\ccp.lst
 
-               ROM used:   570 bytes (2%)
-                           Largest free fragment is 32198
-               RAM used:   9 (1%) at main() level
-                           20 (1%) worst case
-               Stack:     1 locations
+               ROM used:   60 bytes (0%)
+                           Largest free fragment is 32708
+               RAM used:   4 (0%) at main() level
+                           4 (0%) worst case
+               Stack:     0 locations
 
 *
-0000:  GOTO   0192
-.................... #include <18F252.h> 
+0000:  GOTO   0004
+.................... #include<18F252.h> 
 .................... //////// Standard Header file for the PIC18F252 device //////////////// 
 .................... #device PIC18F252 
 .................... #list 
@@ -18,125 +18,50 @@ CCS PCH C Compiler, Version 4.140, 31805               16-abr-14 08:41
 ....................  
 .................... #FUSES HS 
 ....................  
-.................... #use delay(clock=8MHz) 
-016A:  CLRF   FEA
-016C:  MOVLW  09
-016E:  MOVWF  FE9
-0170:  MOVF   FEF,W
-0172:  BZ    018E
-0174:  MOVLW  02
-0176:  MOVWF  01
-0178:  CLRF   00
-017A:  DECFSZ 00,F
-017C:  BRA    017A
-017E:  DECFSZ 01,F
-0180:  BRA    0178
-0182:  MOVLW  97
-0184:  MOVWF  00
-0186:  DECFSZ 00,F
-0188:  BRA    0186
-018A:  DECFSZ FEF,F
-018C:  BRA    0174
-018E:  GOTO   0232 (RETURN)
+.................... #use delay(clock=15MHz) 
 .................... #use rs232(xmit=PIN_C6, baud=9600) 
 ....................  
-.................... short ctrl = FALSE; 
-.................... int cont = 10; 
-.................... int duty = 0; 
-.................... long tempoAux = 0; 
-....................  
 .................... int main(void) { 
-0192:  CLRF   FF8
-0194:  BCF    FD0.7
-0196:  CLRF   FEA
-0198:  CLRF   FE9
-019A:  BCF    F94.6
-019C:  BSF    F8B.6
-019E:  BCF    04.0
-01A0:  MOVLW  0A
-01A2:  MOVWF  05
-01A4:  CLRF   06
-01A6:  CLRF   08
-01A8:  CLRF   07
-01AA:  BSF    FC1.0
-01AC:  BSF    FC1.1
-01AE:  BSF    FC1.2
-01B0:  BCF    FC1.3
+0004:  CLRF   FF8
+0006:  BCF    FD0.7
+0008:  CLRF   FEA
+000A:  CLRF   FE9
+000C:  BCF    F94.6
+000E:  BSF    F8B.6
+0010:  BSF    FC1.0
+0012:  BSF    FC1.1
+0014:  BSF    FC1.2
+0016:  BCF    FC1.3
 ....................  
-....................    setup_ccp1(CCP_PWM); 
-01B2:  BCF    F94.2
-01B4:  BCF    F8B.2
-01B6:  MOVLW  0C
-01B8:  MOVWF  FBD
-....................    setup_timer_2(T2_DIV_BY_1, 255, 1); 
-01BA:  MOVLW  00
-01BC:  IORLW  04
-01BE:  MOVWF  FCA
-01C0:  MOVLW  FF
-01C2:  MOVWF  FCB
-....................    set_pwm1_duty(127); 
-01C4:  MOVLW  7F
-01C6:  MOVWF  FBE
+.................... 	setup_timer_2(T2_DIV_BY_1, 0xFF, 1); 
+0018:  MOVLW  00
+001A:  IORLW  04
+001C:  MOVWF  FCA
+001E:  MOVLW  FF
+0020:  MOVWF  FCB
 ....................  
-....................    while (TRUE) { 
-....................          duty = (int) cont * 2.55; 
-01C8:  CLRF   0A
-01CA:  MOVFF  05,09
-01CE:  BRA    0004
-01D0:  MOVFF  03,0C
-01D4:  MOVFF  02,0B
-01D8:  MOVFF  01,0A
-01DC:  MOVFF  00,09
-01E0:  MOVLW  33
-01E2:  MOVWF  10
-01E4:  MOVWF  0F
-01E6:  MOVLW  23
-01E8:  MOVWF  0E
-01EA:  MOVLW  80
-01EC:  MOVWF  0D
-01EE:  BRA    003C
-01F0:  MOVFF  03,0C
-01F4:  MOVFF  02,0B
-01F8:  MOVFF  01,0A
-01FC:  MOVFF  00,09
-0200:  BRA    0130
-0202:  MOVFF  01,06
-....................          set_pwm1_duty(duty); 
-0206:  MOVFF  06,FBE
-....................          cont = !ctrl ? cont + 1 : cont - 1; 
-020A:  BTFSC  04.0
-020C:  BRA    0214
-020E:  MOVLW  01
-0210:  ADDWF  05,W
-0212:  BRA    0218
-0214:  MOVLW  01
-0216:  SUBWF  05,W
-0218:  MOVWF  05
-....................          if (cont == 99) 
-021A:  MOVF   05,W
-021C:  SUBLW  63
-021E:  BNZ   0224
-....................             ctrl = TRUE; 
-0220:  BSF    04.0
-....................          else if (cont == 10) 
-0222:  BRA    022C
-0224:  MOVF   05,W
-0226:  SUBLW  0A
-0228:  BNZ   022C
-....................             ctrl = FALSE; 
-022A:  BCF    04.0
-....................          delay_ms(50); 
-022C:  MOVLW  32
-022E:  MOVWF  09
-0230:  BRA    016A
-....................    } 
-0232:  BRA    01C8
+.................... 	setup_ccp1(CCP_PWM); 
+0022:  BCF    F94.2
+0024:  BCF    F8B.2
+0026:  MOVLW  0C
+0028:  MOVWF  FBD
+.................... 	set_pwm1_duty(512); 
+002A:  MOVLW  80
+002C:  MOVWF  FBE
+002E:  MOVF   FBD,W
+0030:  ANDLW  CF
+0032:  MOVWF  FBD
 ....................  
-....................    return 0; 
-0234:  MOVLW  00
-0236:  MOVWF  01
+.................... 	while (TRUE) { 
+....................  
+.................... 	} 
+0034:  BRA    0034
+....................  
+.................... 	return 0; 
+0036:  MOVLW  00
+0038:  MOVWF  01
 .................... } 
-0238:  SLEEP 
+003A:  SLEEP 
 
 Configuration Fuses:
    Word  1: 2200   HS NOOSCSEN
