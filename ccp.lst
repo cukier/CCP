@@ -1,15 +1,61 @@
-CCS PCH C Compiler, Version 4.140, 22098               24-set-14 16:02
+CCS PCH C Compiler, Version 4.140, 22098               25-set-14 10:46
 
                Filename:   D:\Projetos\CCP\ccp.lst
 
-               ROM used:   176 bytes (1%)
-                           Largest free fragment is 32592
-               RAM used:   12 (1%) at main() level
-                           12 (1%) worst case
-               Stack:     0 locations
+               ROM used:   490 bytes (1%)
+                           Largest free fragment is 32274
+               RAM used:   75 (5%) at main() level
+                           77 (5%) worst case
+               Stack:     1 worst case (0 in main + 1 for interrupts)
 
 *
-0000:  GOTO   0004
+0000:  GOTO   0114
+*
+0008:  MOVWF  04
+000A:  MOVFF  FD8,05
+000E:  MOVFF  FE0,06
+0012:  MOVLB  0
+0014:  MOVFF  FE9,0C
+0018:  MOVFF  FEA,07
+001C:  MOVFF  FE1,08
+0020:  MOVFF  FE2,09
+0024:  MOVFF  FD9,0A
+0028:  MOVFF  FDA,0B
+002C:  MOVFF  FF3,12
+0030:  MOVFF  FF4,13
+0034:  MOVFF  FFA,14
+0038:  MOVFF  FF5,15
+003C:  MOVFF  FF6,16
+0040:  MOVFF  FF7,17
+0044:  MOVFF  00,0E
+0048:  MOVFF  01,0F
+004C:  MOVFF  02,10
+0050:  MOVFF  03,11
+0054:  BTFSS  F9D.1
+0056:  GOTO   0060
+005A:  BTFSC  F9E.1
+005C:  GOTO   00AE
+0060:  MOVFF  0E,00
+0064:  MOVFF  0F,01
+0068:  MOVFF  10,02
+006C:  MOVFF  11,03
+0070:  MOVFF  0C,FE9
+0074:  MOVFF  07,FEA
+0078:  BSF    07.7
+007A:  MOVFF  08,FE1
+007E:  MOVFF  09,FE2
+0082:  MOVFF  0A,FD9
+0086:  MOVFF  0B,FDA
+008A:  MOVFF  12,FF3
+008E:  MOVFF  13,FF4
+0092:  MOVFF  14,FFA
+0096:  MOVFF  15,FF5
+009A:  MOVFF  16,FF6
+009E:  MOVFF  17,FF7
+00A2:  MOVF   04,W
+00A4:  MOVFF  06,FE0
+00A8:  MOVFF  05,FD8
+00AC:  RETFIE 0
 .................... #include<18F252.h> 
 .................... //////// Standard Header file for the PIC18F252 device //////////////// 
 .................... #device PIC18F252 
@@ -22,113 +68,191 @@ CCS PCH C Compiler, Version 4.140, 22098               24-set-14 16:02
 .................... #use delay(clock=15MHz) 
 .................... //#use rs232(xmit=PIN_C6, baud=9600) 
 ....................  
-.................... #define latencia 200 
+.................... #define max 24 
 ....................  
-.................... long cont, read, aux; 
+.................... long cont; 
 ....................  
+.................... long pwm_duty[max] = { 512, 644, 768, 874, 955, 1006, 1023, 1006, 955, 874, 768, 
+.................... 		644, 512, 379, 256, 150, 68, 17, 1, 17, 68, 150, 256, 379 }; 
+....................  
+.................... #INT_TIMER2 
+.................... void isr_timer2() { 
+.................... 	clear_interrupt(INT_TIMER2); 
+00AE:  BCF    F9E.1
+.................... 	if (cont >= max) 
+00B0:  MOVF   1A,F
+00B2:  BNZ   00BA
+00B4:  MOVF   19,W
+00B6:  SUBLW  17
+00B8:  BC    00BE
+.................... 		cont = 0; 
+00BA:  CLRF   1A
+00BC:  CLRF   19
+.................... 	set_pwm1_duty(pwm_duty[cont++]); 
+00BE:  MOVFF  1A,03
+00C2:  MOVF   19,W
+00C4:  INCF   19,F
+00C6:  BTFSC  FD8.2
+00C8:  INCF   1A,F
+00CA:  MOVWF  4B
+00CC:  MOVFF  03,4C
+00D0:  BCF    FD8.0
+00D2:  RLCF   4B,W
+00D4:  MOVWF  02
+00D6:  RLCF   03,W
+00D8:  MOVWF  03
+00DA:  MOVF   02,W
+00DC:  ADDLW  1B
+00DE:  MOVWF  FE9
+00E0:  MOVLW  00
+00E2:  ADDWFC 03,W
+00E4:  MOVWF  FEA
+00E6:  MOVFF  FEC,4C
+00EA:  MOVF   FED,F
+00EC:  MOVFF  FEF,4B
+00F0:  RRCF   4C,F
+00F2:  RRCF   4B,F
+00F4:  RRCF   4C,F
+00F6:  RRCF   4B,F
+00F8:  RRCF   4C,F
+00FA:  MOVFF  4B,FBE
+00FE:  RRCF   4C,F
+0100:  RRCF   4C,W
+0102:  ANDLW  30
+0104:  MOVWF  00
+0106:  MOVF   FBD,W
+0108:  ANDLW  CF
+010A:  IORWF  00,W
+010C:  MOVWF  FBD
+.................... } 
+....................  
+010E:  BCF    F9E.1
+0110:  GOTO   0060
 .................... int main(void) { 
-0004:  CLRF   FF8
-0006:  BCF    FD0.7
-0008:  CLRF   FEA
-000A:  CLRF   FE9
-000C:  BSF    FC1.0
-000E:  BSF    FC1.1
-0010:  BSF    FC1.2
-0012:  BCF    FC1.3
+0114:  CLRF   FF8
+0116:  BCF    FD0.7
+0118:  BSF    07.7
+011A:  CLRF   FEA
+011C:  CLRF   FE9
+011E:  BSF    FC1.0
+0120:  BSF    FC1.1
+0122:  BSF    FC1.2
+0124:  BCF    FC1.3
+0126:  CLRF   1B
+0128:  MOVLW  02
+012A:  MOVWF  1C
+012C:  MOVLW  84
+012E:  MOVWF  1D
+0130:  MOVLW  02
+0132:  MOVWF  1E
+0134:  CLRF   1F
+0136:  MOVLW  03
+0138:  MOVWF  20
+013A:  MOVLW  6A
+013C:  MOVWF  21
+013E:  MOVLW  03
+0140:  MOVWF  22
+0142:  MOVLW  BB
+0144:  MOVWF  23
+0146:  MOVLW  03
+0148:  MOVWF  24
+014A:  MOVLW  EE
+014C:  MOVWF  25
+014E:  MOVLW  03
+0150:  MOVWF  26
+0152:  SETF   27
+0154:  MOVWF  28
+0156:  MOVLW  EE
+0158:  MOVWF  29
+015A:  MOVLW  03
+015C:  MOVWF  2A
+015E:  MOVLW  BB
+0160:  MOVWF  2B
+0162:  MOVLW  03
+0164:  MOVWF  2C
+0166:  MOVLW  6A
+0168:  MOVWF  2D
+016A:  MOVLW  03
+016C:  MOVWF  2E
+016E:  CLRF   2F
+0170:  MOVWF  30
+0172:  MOVLW  84
+0174:  MOVWF  31
+0176:  MOVLW  02
+0178:  MOVWF  32
+017A:  CLRF   33
+017C:  MOVWF  34
+017E:  MOVLW  7B
+0180:  MOVWF  35
+0182:  MOVLW  01
+0184:  MOVWF  36
+0186:  CLRF   37
+0188:  MOVWF  38
+018A:  MOVLW  96
+018C:  MOVWF  39
+018E:  CLRF   3A
+0190:  MOVLW  44
+0192:  MOVWF  3B
+0194:  CLRF   3C
+0196:  MOVLW  11
+0198:  MOVWF  3D
+019A:  CLRF   3E
+019C:  MOVLW  01
+019E:  MOVWF  3F
+01A0:  CLRF   40
+01A2:  MOVLW  11
+01A4:  MOVWF  41
+01A6:  CLRF   42
+01A8:  MOVLW  44
+01AA:  MOVWF  43
+01AC:  CLRF   44
+01AE:  MOVLW  96
+01B0:  MOVWF  45
+01B2:  CLRF   46
+01B4:  CLRF   47
+01B6:  MOVLW  01
+01B8:  MOVWF  48
+01BA:  MOVLW  7B
+01BC:  MOVWF  49
+01BE:  MOVLW  01
+01C0:  MOVWF  4A
 ....................  
-.................... 	setup_adc(ADC_CLOCK_INTERNAL); 
-0014:  BCF    FC1.6
-0016:  BSF    FC2.6
-0018:  BSF    FC2.7
-001A:  BSF    FC1.7
-001C:  BSF    FC2.0
-.................... 	setup_adc_ports(AN0); 
-001E:  BCF    FC1.0
-0020:  BSF    FC1.1
-0022:  BSF    FC1.2
-0024:  BSF    FC1.3
-.................... 	set_adc_channel(0); 
-0026:  MOVLW  00
-0028:  MOVWF  01
-002A:  MOVF   FC2,W
-002C:  ANDLW  C7
-002E:  IORWF  01,W
-0030:  MOVWF  FC2
-....................  
-.................... 	setup_timer_2(T2_DIV_BY_1, 0xFF, 1); 
-0032:  MOVLW  00
-0034:  IORLW  04
-0036:  MOVWF  FCA
-0038:  MOVLW  FF
-003A:  MOVWF  FCB
+.................... 	setup_timer_2(T2_DIV_BY_1, 0xFF, 16); 
+01C2:  MOVLW  78
+01C4:  IORLW  04
+01C6:  MOVWF  FCA
+01C8:  MOVLW  FF
+01CA:  MOVWF  FCB
 ....................  
 .................... 	setup_ccp1(CCP_PWM); 
-003C:  BCF    F94.2
-003E:  BCF    F8B.2
-0040:  MOVLW  0C
-0042:  MOVWF  FBD
+01CC:  BCF    F94.2
+01CE:  BCF    F8B.2
+01D0:  MOVLW  0C
+01D2:  MOVWF  FBD
 .................... 	set_pwm1_duty(512); 
-0044:  MOVLW  80
-0046:  MOVWF  FBE
-0048:  MOVF   FBD,W
-004A:  ANDLW  CF
-004C:  MOVWF  FBD
+01D4:  MOVLW  80
+01D6:  MOVWF  FBE
+01D8:  MOVF   FBD,W
+01DA:  ANDLW  CF
+01DC:  MOVWF  FBD
 ....................  
-.................... 	while (TRUE) { 
+.................... 	clear_interrupt(INT_TIMER2); 
+01DE:  BCF    F9E.1
+.................... 	enable_interrupts(INT_TIMER2); 
+01E0:  BSF    F9D.1
+.................... 	enable_interrupts(GLOBAL); 
+01E2:  MOVLW  C0
+01E4:  IORWF  FF2,F
 ....................  
-.................... 		delay_us(10); 
-004E:  MOVLW  0B
-0050:  MOVWF  00
-0052:  DECFSZ 00,F
-0054:  BRA    0052
-0056:  BRA    0058
-0058:  NOP   
-.................... 		read = read_adc(); 
-005A:  BSF    FC2.2
-005C:  BTFSC  FC2.2
-005E:  BRA    005C
-0060:  MOVFF  FC3,06
-0064:  MOVFF  FC4,07
-.................... 		if (aux != read) { 
-0068:  MOVF   06,W
-006A:  SUBWF  08,W
-006C:  BNZ   0074
-006E:  MOVF   07,W
-0070:  SUBWF  09,W
-0072:  BZ    00A8
-.................... 			aux = read; 
-0074:  MOVFF  07,09
-0078:  MOVFF  06,08
-.................... 			set_pwm1_duty(read_adc()); 
-007C:  BSF    FC2.2
-007E:  BTFSC  FC2.2
-0080:  BRA    007E
-0082:  MOVFF  FC3,0A
-0086:  MOVFF  FC4,0B
-008A:  RRCF   0B,F
-008C:  RRCF   0A,F
-008E:  RRCF   0B,F
-0090:  RRCF   0A,F
-0092:  RRCF   0B,F
-0094:  MOVFF  0A,FBE
-0098:  RRCF   0B,F
-009A:  RRCF   0B,W
-009C:  ANDLW  30
-009E:  MOVWF  00
-00A0:  MOVF   FBD,W
-00A2:  ANDLW  CF
-00A4:  IORWF  00,W
-00A6:  MOVWF  FBD
-.................... //			printf("pwm: %lu\n\r", read); 
-.................... 		} 
-.................... 	} 
-00A8:  BRA    004E
+.................... 	while (TRUE) 
+.................... 		; 
+01E6:  BRA    01E6
 ....................  
 .................... 	return 0; 
-00AA:  MOVLW  00
-00AC:  MOVWF  01
+01E8:  MOVLW  00
+01EA:  MOVWF  01
 .................... } 
-00AE:  SLEEP 
+01EC:  SLEEP 
 
 Configuration Fuses:
    Word  1: 2200   HS NOOSCSEN
