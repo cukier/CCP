@@ -1,9 +1,9 @@
 CCS PCH C Compiler, Version 4.140, 22098               03-out-14 16:07
 
-               Filename:   D:\Projetos\CCP\ccp.lst
+               Filename:   D:\Projetos\CCP\ccp2.lst
 
-               ROM used:   612 bytes (2%)
-                           Largest free fragment is 32152
+               ROM used:   614 bytes (2%)
+                           Largest free fragment is 32150
                RAM used:   77 (5%) at main() level
                            95 (6%) worst case
                Stack:     2 worst case (1 in main + 1 for interrupts)
@@ -2317,7 +2317,7 @@ CCS PCH C Compiler, Version 4.140, 22098               03-out-14 16:07
 011E:  BRA    0120
 0120:  DECFSZ FEF,F
 0122:  BRA    0108
-0124:  GOTO   022E (RETURN)
+0124:  GOTO   0230 (RETURN)
 .................... //#use rs232(xmit=PIN_C6, baud=9600) 
 ....................  
 .................... #define max			24 
@@ -2326,7 +2326,7 @@ CCS PCH C Compiler, Version 4.140, 22098               03-out-14 16:07
 .................... short btn; 
 .................... short ctrlbtn; 
 ....................  
-.................... int pwm_cont1 = 0; 
+.................... int pwm_cont1 = 8; 
 ....................  
 .................... long pwm_duty[max] = { 512, 644, 768, 874, 955, 1006, 1023, 1006, 955, 874, 768, 
 .................... 		644, 512, 379, 256, 150, 68, 17, 1, 17, 68, 150, 256, 379 }; 
@@ -2383,187 +2383,188 @@ CCS PCH C Compiler, Version 4.140, 22098               03-out-14 16:07
 012C:  BSF    07.7
 012E:  CLRF   FEA
 0130:  CLRF   FE9
-0132:  CLRF   1A
-0134:  BSF    FC1.0
-0136:  BSF    FC1.1
-0138:  BSF    FC1.2
-013A:  BCF    FC1.3
-013C:  CLRF   1B
-013E:  MOVLW  02
-0140:  MOVWF  1C
-0142:  MOVLW  84
-0144:  MOVWF  1D
-0146:  MOVLW  02
-0148:  MOVWF  1E
-014A:  CLRF   1F
-014C:  MOVLW  03
-014E:  MOVWF  20
-0150:  MOVLW  6A
-0152:  MOVWF  21
-0154:  MOVLW  03
-0156:  MOVWF  22
-0158:  MOVLW  BB
-015A:  MOVWF  23
-015C:  MOVLW  03
-015E:  MOVWF  24
-0160:  MOVLW  EE
-0162:  MOVWF  25
-0164:  MOVLW  03
-0166:  MOVWF  26
-0168:  SETF   27
-016A:  MOVWF  28
-016C:  MOVLW  EE
-016E:  MOVWF  29
-0170:  MOVLW  03
-0172:  MOVWF  2A
-0174:  MOVLW  BB
-0176:  MOVWF  2B
-0178:  MOVLW  03
-017A:  MOVWF  2C
-017C:  MOVLW  6A
-017E:  MOVWF  2D
-0180:  MOVLW  03
-0182:  MOVWF  2E
-0184:  CLRF   2F
-0186:  MOVWF  30
-0188:  MOVLW  84
-018A:  MOVWF  31
-018C:  MOVLW  02
-018E:  MOVWF  32
-0190:  CLRF   33
-0192:  MOVWF  34
-0194:  MOVLW  7B
-0196:  MOVWF  35
-0198:  MOVLW  01
-019A:  MOVWF  36
-019C:  CLRF   37
-019E:  MOVWF  38
-01A0:  MOVLW  96
-01A2:  MOVWF  39
-01A4:  CLRF   3A
-01A6:  MOVLW  44
-01A8:  MOVWF  3B
-01AA:  CLRF   3C
-01AC:  MOVLW  11
-01AE:  MOVWF  3D
-01B0:  CLRF   3E
-01B2:  MOVLW  01
-01B4:  MOVWF  3F
-01B6:  CLRF   40
-01B8:  MOVLW  11
-01BA:  MOVWF  41
-01BC:  CLRF   42
-01BE:  MOVLW  44
-01C0:  MOVWF  43
-01C2:  CLRF   44
-01C4:  MOVLW  96
-01C6:  MOVWF  45
-01C8:  CLRF   46
-01CA:  CLRF   47
-01CC:  MOVLW  01
-01CE:  MOVWF  48
-01D0:  MOVLW  7B
-01D2:  MOVWF  49
-01D4:  MOVLW  01
-01D6:  MOVWF  4A
+0132:  MOVLW  08
+0134:  MOVWF  1A
+0136:  BSF    FC1.0
+0138:  BSF    FC1.1
+013A:  BSF    FC1.2
+013C:  BCF    FC1.3
+013E:  CLRF   1B
+0140:  MOVLW  02
+0142:  MOVWF  1C
+0144:  MOVLW  84
+0146:  MOVWF  1D
+0148:  MOVLW  02
+014A:  MOVWF  1E
+014C:  CLRF   1F
+014E:  MOVLW  03
+0150:  MOVWF  20
+0152:  MOVLW  6A
+0154:  MOVWF  21
+0156:  MOVLW  03
+0158:  MOVWF  22
+015A:  MOVLW  BB
+015C:  MOVWF  23
+015E:  MOVLW  03
+0160:  MOVWF  24
+0162:  MOVLW  EE
+0164:  MOVWF  25
+0166:  MOVLW  03
+0168:  MOVWF  26
+016A:  SETF   27
+016C:  MOVWF  28
+016E:  MOVLW  EE
+0170:  MOVWF  29
+0172:  MOVLW  03
+0174:  MOVWF  2A
+0176:  MOVLW  BB
+0178:  MOVWF  2B
+017A:  MOVLW  03
+017C:  MOVWF  2C
+017E:  MOVLW  6A
+0180:  MOVWF  2D
+0182:  MOVLW  03
+0184:  MOVWF  2E
+0186:  CLRF   2F
+0188:  MOVWF  30
+018A:  MOVLW  84
+018C:  MOVWF  31
+018E:  MOVLW  02
+0190:  MOVWF  32
+0192:  CLRF   33
+0194:  MOVWF  34
+0196:  MOVLW  7B
+0198:  MOVWF  35
+019A:  MOVLW  01
+019C:  MOVWF  36
+019E:  CLRF   37
+01A0:  MOVWF  38
+01A2:  MOVLW  96
+01A4:  MOVWF  39
+01A6:  CLRF   3A
+01A8:  MOVLW  44
+01AA:  MOVWF  3B
+01AC:  CLRF   3C
+01AE:  MOVLW  11
+01B0:  MOVWF  3D
+01B2:  CLRF   3E
+01B4:  MOVLW  01
+01B6:  MOVWF  3F
+01B8:  CLRF   40
+01BA:  MOVLW  11
+01BC:  MOVWF  41
+01BE:  CLRF   42
+01C0:  MOVLW  44
+01C2:  MOVWF  43
+01C4:  CLRF   44
+01C6:  MOVLW  96
+01C8:  MOVWF  45
+01CA:  CLRF   46
+01CC:  CLRF   47
+01CE:  MOVLW  01
+01D0:  MOVWF  48
+01D2:  MOVLW  7B
+01D4:  MOVWF  49
+01D6:  MOVLW  01
+01D8:  MOVWF  4A
 ....................  
 .................... 	setup_timer_2(T2_DIV_BY_16, 0xFF, 16); 
-01D8:  MOVLW  78
-01DA:  IORLW  06
-01DC:  MOVWF  FCA
-01DE:  MOVLW  FF
-01E0:  MOVWF  FCB
+01DA:  MOVLW  78
+01DC:  IORLW  06
+01DE:  MOVWF  FCA
+01E0:  MOVLW  FF
+01E2:  MOVWF  FCB
 ....................  
 .................... 	setup_ccp1(CCP_OFF); 
-01E2:  MOVLW  F0
-01E4:  ANDWF  FBD,F
+01E4:  MOVLW  F0
+01E6:  ANDWF  FBD,F
 ....................  
 .................... 	set_pwm1_duty(pwm_duty[pwm_cont1++]); 
-01E6:  MOVF   1A,W
-01E8:  INCF   1A,F
-01EA:  MOVWF  00
-01EC:  BCF    FD8.0
-01EE:  RLCF   00,F
-01F0:  MOVF   00,W
-01F2:  CLRF   03
-01F4:  ADDLW  1B
-01F6:  MOVWF  FE9
-01F8:  MOVLW  00
-01FA:  ADDWFC 03,W
-01FC:  MOVWF  FEA
-01FE:  MOVFF  FEC,4C
-0202:  MOVF   FED,F
-0204:  MOVFF  FEF,4B
-0208:  RRCF   4C,F
-020A:  RRCF   4B,F
-020C:  RRCF   4C,F
-020E:  RRCF   4B,F
-0210:  RRCF   4C,F
-0212:  MOVFF  4B,FBE
-0216:  RRCF   4C,F
-0218:  RRCF   4C,W
-021A:  ANDLW  30
-021C:  MOVWF  00
-021E:  MOVF   FBD,W
-0220:  ANDLW  CF
-0222:  IORWF  00,W
-0224:  MOVWF  FBD
+01E8:  MOVF   1A,W
+01EA:  INCF   1A,F
+01EC:  MOVWF  00
+01EE:  BCF    FD8.0
+01F0:  RLCF   00,F
+01F2:  MOVF   00,W
+01F4:  CLRF   03
+01F6:  ADDLW  1B
+01F8:  MOVWF  FE9
+01FA:  MOVLW  00
+01FC:  ADDWFC 03,W
+01FE:  MOVWF  FEA
+0200:  MOVFF  FEC,4C
+0204:  MOVF   FED,F
+0206:  MOVFF  FEF,4B
+020A:  RRCF   4C,F
+020C:  RRCF   4B,F
+020E:  RRCF   4C,F
+0210:  RRCF   4B,F
+0212:  RRCF   4C,F
+0214:  MOVFF  4B,FBE
+0218:  RRCF   4C,F
+021A:  RRCF   4C,W
+021C:  ANDLW  30
+021E:  MOVWF  00
+0220:  MOVF   FBD,W
+0222:  ANDLW  CF
+0224:  IORWF  00,W
+0226:  MOVWF  FBD
 ....................  
 .................... 	clear_interrupt(INT_TIMER2); 
-0226:  BCF    F9E.1
+0228:  BCF    F9E.1
 ....................  
 .................... 	delay_ms(100); 
-0228:  MOVLW  64
-022A:  MOVWF  4B
-022C:  BRA    00FE
+022A:  MOVLW  64
+022C:  MOVWF  4B
+022E:  BRA    00FE
 ....................  
 .................... 	while (TRUE) { 
 ....................  
 .................... 		btn = !input(btn_pin); 
-022E:  BSF    F93.0
-0230:  BCF    19.0
-0232:  BTFSS  F81.0
-0234:  BSF    19.0
+0230:  BSF    F93.0
+0232:  BCF    19.0
+0234:  BTFSS  F81.0
+0236:  BSF    19.0
 ....................  
 .................... 		if (btn && !ctrlbtn) { 
-0236:  BTFSS  19.0
-0238:  BRA    0252
-023A:  BTFSC  19.1
-023C:  BRA    0252
+0238:  BTFSS  19.0
+023A:  BRA    0254
+023C:  BTFSC  19.1
+023E:  BRA    0254
 .................... 			ctrlbtn = TRUE; 
-023E:  BSF    19.1
+0240:  BSF    19.1
 .................... 			setup_ccp1(CCP_PWM); 
-0240:  BCF    F94.2
-0242:  BCF    F8B.2
-0244:  MOVLW  0C
-0246:  MOVWF  FBD
+0242:  BCF    F94.2
+0244:  BCF    F8B.2
+0246:  MOVLW  0C
+0248:  MOVWF  FBD
 .................... 			clear_interrupt(INT_TIMER2); 
-0248:  BCF    F9E.1
+024A:  BCF    F9E.1
 .................... 			enable_interrupts(INT_TIMER2); 
-024A:  BSF    F9D.1
+024C:  BSF    F9D.1
 .................... 			enable_interrupts(GLOBAL); 
-024C:  MOVLW  C0
-024E:  IORWF  FF2,F
+024E:  MOVLW  C0
+0250:  IORWF  FF2,F
 .................... 		} else if (!btn && ctrlbtn) { 
-0250:  BRA    0260
-0252:  BTFSC  19.0
-0254:  BRA    0260
-0256:  BTFSS  19.1
-0258:  BRA    0260
+0252:  BRA    0262
+0254:  BTFSC  19.0
+0256:  BRA    0262
+0258:  BTFSS  19.1
+025A:  BRA    0262
 .................... 			ctrlbtn = FALSE; 
-025A:  BCF    19.1
+025C:  BCF    19.1
 .................... 			setup_ccp1(CCP_OFF); 
-025C:  MOVLW  F0
-025E:  ANDWF  FBD,F
+025E:  MOVLW  F0
+0260:  ANDWF  FBD,F
 .................... 		} 
 .................... 	} 
-0260:  BRA    022E
+0262:  BRA    0230
 ....................  
 .................... 	return 0; 
-0262:  MOVLW  00
-0264:  MOVWF  01
+0264:  MOVLW  00
+0266:  MOVWF  01
 .................... } 
-0266:  SLEEP 
+0268:  SLEEP 
 
 Configuration Fuses:
    Word  1: 2200   HS NOOSCSEN
