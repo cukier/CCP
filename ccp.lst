@@ -1,131 +1,337 @@
-CCS PCH C Compiler, Version 4.140, 22098               09-out-14 17:32
+CCS PCH C Compiler, Version 4.140, 22098               24-out-14 17:49
 
                Filename:   D:\Projetos\CCP\ccp.lst
 
-               ROM used:   168 bytes (1%)
-                           Largest free fragment is 32600
-               RAM used:   6 (0%) at main() level
-                           6 (0%) worst case
-               Stack:     0 locations
+               ROM used:   792 bytes (2%)
+                           Largest free fragment is 31976
+               RAM used:   9 (1%) at main() level
+                           18 (1%) worst case
+               Stack:     2 locations
 
 *
-0000:  GOTO   0004
-.................... #include<18F252.h> 
-.................... //////// Standard Header file for the PIC18F252 device //////////////// 
-.................... #device PIC18F252 
+0000:  GOTO   01A4
+.................... #include<18F45K22.h> 
+.................... //////// Standard Header file for the PIC18F45K22 device //////////////// 
+.................... #device PIC18F45K22 
 .................... #list 
 ....................  
 .................... #DEVICE ADC=10 
 ....................  
-.................... #FUSES HS 
+.................... #FUSES HSH, PLLEN, CCP2C1 
 ....................  
-.................... #use delay(clock=15MHz) 
+.................... #use delay(clock=60MHz, crystal=15MHz) 
+*
+0018:  MOVLW  01
+001A:  SUBWF  09,F
+001C:  BNC   0036
+001E:  CLRF   FEA
+0020:  MOVLW  09
+0022:  MOVWF  FE9
+0024:  MOVF   FEF,W
+0026:  BZ    0036
+0028:  MOVLW  03
+002A:  MOVWF  00
+002C:  DECFSZ 00,F
+002E:  BRA    002C
+0030:  BRA    0032
+0032:  DECFSZ FEF,F
+0034:  BRA    0028
+0036:  RETURN 0
+*
+017A:  CLRF   FEA
+017C:  MOVLW  09
+017E:  MOVWF  FE9
+0180:  MOVF   FEF,W
+0182:  BZ    01A0
+0184:  MOVLW  13
+0186:  MOVWF  01
+0188:  CLRF   00
+018A:  DECFSZ 00,F
+018C:  BRA    018A
+018E:  DECFSZ 01,F
+0190:  BRA    0188
+0192:  MOVLW  73
+0194:  MOVWF  00
+0196:  DECFSZ 00,F
+0198:  BRA    0196
+019A:  NOP   
+019C:  DECFSZ FEF,F
+019E:  BRA    0184
+01A0:  GOTO   030C (RETURN)
+.................... //#use delay(clock=15MHz) 
 .................... #use rs232(xmit=PIN_C6, baud=9600) 
+*
+0064:  BCF    F94.6
+0066:  BCF    F8B.6
+0068:  MOVLW  08
+006A:  MOVWF  01
+006C:  BRA    006E
+006E:  NOP   
+0070:  BSF    01.7
+0072:  BRA    0090
+0074:  BCF    01.7
+0076:  RRCF   11,F
+0078:  BTFSC  FD8.0
+007A:  BSF    F8B.6
+007C:  BTFSS  FD8.0
+007E:  BCF    F8B.6
+0080:  BSF    01.6
+0082:  BRA    0090
+0084:  BCF    01.6
+0086:  DECFSZ 01,F
+0088:  BRA    0076
+008A:  BRA    008C
+008C:  NOP   
+008E:  BSF    F8B.6
+0090:  MOVLW  02
+0092:  MOVWF  00
+0094:  CLRF   FE9
+0096:  DECFSZ FE9,F
+0098:  BRA    0096
+009A:  DECFSZ 00,F
+009C:  BRA    0094
+009E:  BRA    00A0
+00A0:  BTFSC  01.7
+00A2:  BRA    0074
+00A4:  BTFSC  01.6
+00A6:  BRA    0084
+00A8:  RETURN 0
 ....................  
-.................... long leitura; 
+.................... long leitura1; 
+.................... long leitura2; 
+....................  
+.................... long read(int canal) { 
+.................... 	set_adc_channel(canal); 
+*
+0038:  RLCF   08,W
+003A:  MOVWF  00
+003C:  RLCF   00,F
+003E:  MOVLW  FC
+0040:  ANDWF  00,F
+0042:  MOVF   FC2,W
+0044:  ANDLW  83
+0046:  IORWF  00,W
+0048:  MOVWF  FC2
+.................... 	delay_us(100); 
+004A:  MOVLW  64
+004C:  MOVWF  09
+004E:  RCALL  0018
+.................... 	return read_adc(); 
+0050:  BSF    FC2.1
+0052:  BTFSC  FC2.1
+0054:  BRA    0052
+0056:  MOVFF  FC4,03
+005A:  MOVFF  FC3,01
+005E:  MOVFF  FC4,02
+.................... } 
+0062:  RETURN 0
 ....................  
 .................... #zero_ram 
 .................... int main(void) { 
-0004:  CLRF   FF8
-0006:  BCF    FD0.7
-0008:  MOVLW  FE
-000A:  MOVWF  00
-000C:  MOVLW  06
-000E:  MOVWF  01
-0010:  MOVLW  02
-0012:  MOVWF  FE9
-0014:  MOVLW  00
-0016:  MOVWF  FEA
-0018:  CLRF   FEE
-001A:  DECFSZ 00,F
-001C:  BRA    0018
-001E:  DECFSZ 01,F
-0020:  BRA    0018
-0022:  CLRF   FEA
-0024:  CLRF   FE9
-0026:  BCF    F94.6
-0028:  BSF    F8B.6
-002A:  BSF    FC1.0
-002C:  BSF    FC1.1
-002E:  BSF    FC1.2
-0030:  BCF    FC1.3
+*
+01A4:  CLRF   FF8
+01A6:  BCF    FD0.7
+01A8:  MOVLW  FE
+01AA:  MOVWF  00
+01AC:  MOVLW  06
+01AE:  MOVWF  01
+01B0:  MOVLW  02
+01B2:  MOVWF  FE9
+01B4:  MOVLW  00
+01B6:  MOVWF  FEA
+01B8:  CLRF   FEE
+01BA:  DECFSZ 00,F
+01BC:  BRA    01B8
+01BE:  DECFSZ 01,F
+01C0:  BRA    01B8
+01C2:  CLRF   FEA
+01C4:  CLRF   FE9
+01C6:  BCF    F94.6
+01C8:  BSF    F8B.6
+01CA:  MOVF   FC1,W
+01CC:  ANDLW  F0
+01CE:  MOVWF  FC1
+01D0:  MOVLW  00
+01D2:  MOVLB  F
+01D4:  MOVWF  x38
+01D6:  MOVWF  x3C
+01D8:  MOVWF  x39
+01DA:  MOVWF  x3A
+01DC:  MOVWF  x3B
+01DE:  MOVLB  1
+01E0:  CLRF   x88
+01E2:  CLRF   F77
+01E4:  CLRF   F78
+01E6:  CLRF   F79
 ....................  
 .................... 	setup_timer_2(T2_DIV_BY_1, 255, 1); 
-0032:  MOVLW  00
-0034:  IORLW  04
-0036:  MOVWF  FCA
-0038:  MOVLW  FF
-003A:  MOVWF  FCB
+01E8:  MOVLW  00
+01EA:  IORLW  04
+01EC:  MOVWF  FBA
+01EE:  MOVLW  FF
+01F0:  MOVWF  FBB
+.................... //	setup_timer_4(T4_DIV_BY_1, 255, 1); 
 ....................  
 .................... 	setup_ccp1(CCP_PWM); 
-003C:  BCF    F94.2
-003E:  BCF    F8B.2
-0040:  MOVLW  0C
-0042:  MOVWF  FBD
+01F2:  BCF    F94.2
+01F4:  BCF    F8B.2
+01F6:  MOVLW  0C
+01F8:  MOVWF  FBD
+01FA:  CLRF   FB7
+01FC:  CLRF   FB6
+01FE:  MOVLW  01
+0200:  MOVWF  FB9
+0202:  MOVLW  FC
+0204:  MOVLB  F
+0206:  ANDWF  x49,F
+0208:  MOVLW  00
+020A:  IORWF  x49,F
+.................... 	setup_ccp2(CCP_PWM); 
+020C:  BCF    F94.1
+020E:  BCF    F8B.1
+0210:  MOVLW  0C
+0212:  MOVWF  F66
+0214:  CLRF   F65
+0216:  CLRF   F64
+0218:  MOVLW  01
+021A:  MOVWF  F63
+021C:  MOVLW  E7
+021E:  ANDWF  x49,F
+0220:  MOVLW  00
+0222:  IORWF  x49,F
 ....................  
-.................... 	setup_adc_ports(AN0); 
-0044:  BCF    FC1.0
-0046:  BSF    FC1.1
-0048:  BSF    FC1.2
-004A:  BSF    FC1.3
+.................... 	setup_adc_ports(sAN0 | sAN1); 
+0224:  MOVF   FC1,W
+0226:  ANDLW  F0
+0228:  MOVWF  FC1
+022A:  MOVLW  03
+022C:  MOVWF  x38
+022E:  MOVLW  00
+0230:  MOVWF  x3C
+0232:  MOVWF  x39
+0234:  MOVWF  x3A
+0236:  MOVWF  x3B
 .................... 	setup_adc(ADC_CLOCK_INTERNAL); 
-004C:  BCF    FC1.6
-004E:  BSF    FC2.6
-0050:  BSF    FC2.7
-0052:  BSF    FC1.7
-0054:  BSF    FC2.0
+0238:  MOVF   FC0,W
+023A:  ANDLW  C0
+023C:  IORLW  07
+023E:  MOVWF  FC0
+0240:  BSF    FC0.7
+0242:  BSF    FC2.0
 .................... 	set_adc_channel(0); 
-0056:  MOVLW  00
-0058:  MOVWF  01
-005A:  MOVF   FC2,W
-005C:  ANDLW  C7
-005E:  IORWF  01,W
-0060:  MOVWF  FC2
+0244:  MOVLW  00
+0246:  MOVWF  01
+0248:  MOVF   FC2,W
+024A:  ANDLW  83
+024C:  IORWF  01,W
+024E:  MOVWF  FC2
 .................... 	delay_us(100); 
-0062:  MOVLW  7C
-0064:  MOVWF  00
-0066:  DECFSZ 00,F
-0068:  BRA    0066
-006A:  BRA    006C
+0250:  MOVLW  64
+0252:  MOVWF  09
+0254:  MOVLB  0
+0256:  RCALL  0018
 ....................  
 .................... 	while (TRUE) { 
-.................... 		leitura = read_adc(); 
-006C:  BSF    FC2.2
-006E:  BTFSC  FC2.2
-0070:  BRA    006E
-0072:  MOVFF  FC3,04
-0076:  MOVFF  FC4,05
-.................... 		set_pwm1_duty(leitura); 
-007A:  MOVFF  05,02
-007E:  MOVFF  04,01
-0082:  RRCF   02,F
-0084:  RRCF   01,F
-0086:  RRCF   02,F
-0088:  RRCF   01,F
-008A:  RRCF   02,F
-008C:  MOVFF  01,FBE
-0090:  RRCF   02,F
-0092:  RRCF   02,W
-0094:  ANDLW  30
-0096:  MOVWF  00
-0098:  MOVF   FBD,W
-009A:  ANDLW  CF
-009C:  IORWF  00,W
-009E:  MOVWF  FBD
+.................... 		leitura1 = read(0); 
+0258:  CLRF   08
+025A:  RCALL  0038
+025C:  MOVFF  02,05
+0260:  MOVFF  01,04
+.................... 		set_pwm1_duty(leitura1); 
+0264:  MOVFF  05,02
+0268:  MOVFF  04,01
+026C:  RRCF   02,F
+026E:  RRCF   01,F
+0270:  RRCF   02,F
+0272:  RRCF   01,F
+0274:  RRCF   02,F
+0276:  MOVFF  01,FBE
+027A:  RRCF   02,F
+027C:  RRCF   02,W
+027E:  ANDLW  30
+0280:  MOVWF  00
+0282:  MOVF   FBD,W
+0284:  ANDLW  CF
+0286:  IORWF  00,W
+0288:  MOVWF  FBD
+....................  
+.................... 		leitura2 = read(1); 
+028A:  MOVLW  01
+028C:  MOVWF  08
+028E:  RCALL  0038
+0290:  MOVFF  02,07
+0294:  MOVFF  01,06
+.................... 		set_pwm2_duty(leitura2); 
+0298:  MOVFF  07,02
+029C:  MOVFF  06,01
+02A0:  RRCF   02,F
+02A2:  RRCF   01,F
+02A4:  RRCF   02,F
+02A6:  RRCF   01,F
+02A8:  RRCF   02,F
+02AA:  MOVFF  01,F67
+02AE:  RRCF   02,F
+02B0:  RRCF   02,W
+02B2:  ANDLW  30
+02B4:  MOVWF  00
+02B6:  MOVF   F66,W
+02B8:  ANDLW  CF
+02BA:  IORWF  00,W
+02BC:  MOVWF  F66
+....................  
+.................... 		printf("l1 %4lu - l2 %4lu\n\r", leitura1, leitura2); 
+02BE:  MOVLW  04
+02C0:  MOVWF  FF6
+02C2:  MOVLW  00
+02C4:  MOVWF  FF7
+02C6:  MOVLW  03
+02C8:  MOVWF  08
+02CA:  RCALL  00AA
+02CC:  MOVLW  01
+02CE:  MOVWF  FE9
+02D0:  MOVFF  05,09
+02D4:  MOVFF  04,08
+02D8:  RCALL  00C8
+02DA:  MOVLW  0B
+02DC:  MOVWF  FF6
+02DE:  MOVLW  00
+02E0:  MOVWF  FF7
+02E2:  MOVLW  06
+02E4:  MOVWF  08
+02E6:  RCALL  00AA
+02E8:  MOVLW  01
+02EA:  MOVWF  FE9
+02EC:  MOVFF  07,09
+02F0:  MOVFF  06,08
+02F4:  RCALL  00C8
+02F6:  MOVLW  0A
+02F8:  MOVWF  11
+02FA:  RCALL  0064
+02FC:  MOVLW  0D
+02FE:  MOVWF  11
+0300:  RCALL  0064
+.................... 		delay_ms(1000); 
+0302:  MOVLW  04
+0304:  MOVWF  08
+0306:  MOVLW  FA
+0308:  MOVWF  09
+030A:  BRA    017A
+030C:  DECFSZ 08,F
+030E:  BRA    0306
 .................... 	} 
-00A0:  BRA    006C
+0310:  BRA    0258
 .................... 	return 0; 
-00A2:  MOVLW  00
-00A4:  MOVWF  01
+0312:  MOVLW  00
+0314:  MOVWF  01
 .................... } 
 ....................  
-00A6:  SLEEP 
+0316:  SLEEP 
 
 Configuration Fuses:
-   Word  1: 2200   HS NOOSCSEN
-   Word  2: 0E0E   PUT BROWNOUT BORV20 NOWDT WDT128
-   Word  3: 0100   CCP2C1
-   Word  4: 0081   STVREN NOLVP NODEBUG
+   Word  1: F300   HSM PLLEN PRIMARY_ON FCMEN IESO
+   Word  2: 3C1E   PUT BROWNOUT BORV19 NOWDT WDT32768
+   Word  3: BF00   CCP2C1 PBADEN CCP3B5 HFOFST TIMER3C0 CCP2D2 MCLR
+   Word  4: 0081   STVREN NOLVP NOXINST NODEBUG
    Word  5: C00F   NOPROTECT NOCPB NOCPD
    Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
    Word  7: 400F   NOEBTR NOEBTRB
