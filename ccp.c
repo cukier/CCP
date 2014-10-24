@@ -11,7 +11,7 @@ long leitura;
 #zero_ram
 int main(void) {
 
-	setup_timer_2(T2_DIV_BY_1, 255, 16);
+	setup_timer_2(T2_DIV_BY_1, 255, 1);
 
 	setup_ccp1(CCP_PWM);
 
@@ -23,8 +23,6 @@ int main(void) {
 	while (TRUE) {
 		leitura = read_adc();
 		set_pwm1_duty(leitura);
-		printf("%lu\n\r", leitura);
-		delay_ms(750);
 	}
 	return 0;
 }
