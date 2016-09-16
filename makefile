@@ -1,22 +1,47 @@
-CC=ccsc
-PK2=pk2cmd
+CC = ccsc
+PK2 = pk2cmd
 
-DEVICE=PIC18F25K22
-UNIT1=CCP
-UNIT1_FILE=ccp
+DEVICE = PIC18F877A
 
-HFLAGS=+FH +LN -T -A -M -Z +DF +Y=9 +STDOUT +EA
-BFLAGS=+FB +LN -T -A -M -Z +DF +Y=9 +STDOUT +EA
-MFLAGS=+FM +LN -T -A -M -Z +DF +Y=9 +STDOUT +EA
-PK2FLAGS=-E -P$(DEVICE) -M -R -F
+SRC = src
+OUT = Debug
+REL = Release
 
-all: $(UNIT1)
+UNIT = CCP
+UINT_FILE = ccp
 
-$(UNIT1): $(UNIT1_FILE).c
-	$(CC) $(HFLAGS) $(UNIT1_FILE).c
+OBJS += *.ccspjt *.cof *.err *.esym *.hex *.lst *.xsym
+MOBJ = $(OBJS:%=$(SRC)/%)
+
+ifeq ($(DEVICE), PIC18F877A)
+CFLAGS += +FM
+endif
+ifeq ($(DEVICE), PIC18F46K22)
+CFLAGS += +FH
+endif
+ifeq ($(DEVICE), PIC18F25K22)
+CFLAGS += +FH
+endif
+
+CFLAGS += +LN -T -A -M -Z +DF +Y=9 +STDOUT +EA
+PK2DELFLAGS += -E -P$(DEVICE)
+PK2FLAGS +=$(PK2DELFLAGS) -M -R -J -F
+
+all: clean $(UNIT)
+
+$(UNIT): $(SRC)/$(UINT_FILE).c
+	$(CC) $(CFLAGS) $(DFLAGS) $<
+	[[ -d $(OUT) ]] || mkdir $(OUT)
+	mv $(MOBJ) $(OUT)
 	
-Burn:
-	$(PK2) $(PK2FLAGS) $(UNIT1_FILE).hex
-
+burn: $(OUT)/$(UINT_FILE).hex
+	$(PK2) $(PK2FLAGS) $<
+	
+erase:
+	$(PK2) $(PK2DELFLAGS)
+	
 clean:
-	rm *.cof *.err *.esym *.hex *.lst *.pjt *.STA *.sym *.tre *.MCP *.PWI *.DBK
+	[[ -d $(OUT) ]] || rm -Rvf $(OUT)
+	
+clean_release:
+	rm -Rvf $(REL)
