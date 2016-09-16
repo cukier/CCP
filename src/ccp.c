@@ -1,19 +1,13 @@
-//#include<18F45K22.h>
-//#DEVICE ADC=10
 #include <16F877A.h>
 
-//#FUSES HSM, PLLEN, CCP2C1
-//#FUSES INTRC, PLLEN, CCP2C1
 #fuses HS
 
-//#use delay(internal=16MHz)
-//#use delay(clock=60MHz, crystal=15MHz)
 #use delay(clock=20MHz)
-#use rs232(xmit=PIN_C6, baud=9600)
 
-long leitura1;
-long leitura2;
-short dir;
+#define ccp_nr 60000
+
+short ctrl1;
+int cont = 0;
 
 long read(int canal) {
 	set_adc_channel(canal);
@@ -21,42 +15,47 @@ long read(int canal) {
 	return read_adc();
 }
 
+#int_ccp1
+void ccp1_isr() {
+	clear_interrupt(INT_CCP1);
+
+	if (!ctrl1) {
+		setup_ccp1(CCP_COMPARE_CLR_ON_MATCH);
+		set_timer1(0);
+		cont++;
+	} else {
+		setup_ccp1(CCP_COMPARE_SET_ON_MATCH);
+		set_timer1(0);
+	}
+
+	CCP_1 = ccp_nr;
+	ctrl1++;
+
+	if (cont == 7) {
+		cont = 0;
+		disable_interrupts(INT_CCP1);
+	}
+}
+
 #zero_ram
 int main(void) {
 
-	setup_timer_2(T2_DIV_BY_1, 255, 1);
-//	setup_timer_4(T4_DIV_BY_1, 255, 1);
+	ctrl1 = TRUE;
 
-//	setup_ccp1(CCP_PWM);
-	setup_ccp2(CCP_PWM);
+	set_timer1(0);
+	setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);
 
-//	setup_adc_ports(sAN0 | sAN1);
-//	setup_adc(ADC_CLOCK_INTERNAL);
-//	set_adc_channel(0);
-//	delay_us(100);
-	leitura1 = 0;
-	dir = TRUE;
+	setup_ccp1(CCP_COMPARE_CLR_ON_MATCH);
+	CCP_1 = ccp_nr;
+
+	clear_interrupt(INT_CCP1);
+	enable_interrupts(INT_CCP1);
+	enable_interrupts(GLOBAL);
 
 	while (TRUE) {
-//		leitura1 = read(0);
-//		set_pwm1_duty(leitura1);
 
-//		leitura2 = read(1);
-		set_pwm2_duty(leitura1);
-
-		if (dir)
-			leitura1++;
-		else
-			leitura1--;
-
-		if (leitura1 == 0xFF)
-			dir = FALSE;
-		if (leitura1 == 1)
-			dir = TRUE;
-
-//		printf("l1 %4lu - l2 %4lu\n\r", leitura1, leitura2);
-//		delay_ms(1);
 	}
+
 	return 0;
 }
 
