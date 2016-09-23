@@ -8,6 +8,7 @@
 
 short ctrl1;
 int cont = 0;
+long count;
 
 long read(int canal) {
 	set_adc_channel(canal);
@@ -34,7 +35,15 @@ void ccp1_isr() {
 	if (cont == 7) {
 		cont = 0;
 		disable_interrupts(INT_CCP1);
+		enable_interrupts(INT_CCP2);
+		set_timer0(0);
+		setup_ccp2(CCP_CAPTURE_RE);
 	}
+}
+
+#int_ccp2
+void ccp2_isr() {
+	clear_interrupt(INT_CCP2);
 }
 
 #zero_ram
